@@ -33,14 +33,11 @@ class CircularQueue:
         if self.isempty():
             return False
                     
-        elif (self.front == self.rear):
-            temp = self.queue[self.front]
-            self.front = self.rear = -1
-            return temp
-        
         else:
-           temp = self.queue[self.front]
-           self.front = (self.front + 1) % self.size
+            temp = self.queue[self.front]
+            self.queue[self.front] = None
+            self.front = (self.front + 1) % self.size
+            return temp
    
     def reverseList(self): 
         start = self.front
