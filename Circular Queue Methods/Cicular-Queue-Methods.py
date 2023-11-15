@@ -20,7 +20,7 @@ class CircularQueue:
         if self.isfull():
             return False
         
-        elif (self.front == -1):
+        elif self.isempty():
             self.front = self.rear = 0
             self.queue[self.rear] = val
 
