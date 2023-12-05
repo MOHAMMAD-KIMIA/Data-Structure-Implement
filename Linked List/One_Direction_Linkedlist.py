@@ -140,3 +140,15 @@ class linkedList:
         
         thisNode.link = addedList
         addedList = None
+        
+    def invert(self):
+        previos = None
+        thisNode = self.head
+        
+        while thisNode is not None:
+            link = thisNode.link
+            thisNode.link = previos
+            previos = thisNode
+            thisNode = link
+            
+        self.head = thisNode
