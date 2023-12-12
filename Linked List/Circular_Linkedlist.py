@@ -6,157 +6,164 @@ class Node:
 class circularLinkedlist:
     def __init__(self):
         self.head = None
-        self.end = None
+        self.last = None
         
     def insertAtfirst(self, data):
         newNode = Node(data)
         
-        if self.head is None:
-            self.head = newNode
-            self.head.link = self.head
-            return
+        if self.last is None:
+            self.last = newNode
+            self.last.link = self.last
+            return self.last
         
         else:
-            newNode.link = self.head
-            self.head = newNode
-            self.end.link = self.head
-            
+            newNode.link = self.last.link
+            self.last.link = newNode
+            return self.last
+                     
     def insertAtend(self, data):
-        
-        # the linked list is empty
-        if self.head is None:
-            self.insertAtfirst(data)
-        
-        else:
-            newNode = Node(data)
-            newNode.link = self.end.link
-            self.end.link = newNode
-            self.end = newNode
-             
-    def insertWherever(self, data, pos):
         newNode = Node(data)
-        checkNext = self.end.link
-        
-        # the linked list is empty
-        if self.head is None:
-            self.insertAtfirst(data)
-        
-        # the linked list isn't empty
-        else:
-            # search for the index in the linked list
-            while checkNext is not None:
-                if checkNext.data == pos:
-                    newNode.link = checkNext.link
-                    checkNext.link = newNode
-                    
-                    if pos == self.end:
-                        self.end = checkNext.link
-
-                newNode = newNode.link
-            # when the pos is not found
-                if newNode == self.end.link:
-                    return False
-
-    def deleteFromfirst(self):
-        if self.head == None:
-            return self.data
+        if self.last is None:
+            self.last = newNode
+            self.last.link = self.last
+            return self.last
         
         else:
-            self.head = self.head.link
-            self.end.link = self.head
-            
-    def deleteFromlast(self):
-        thisNode = self.head
-        
-        if self.head == None:
-            return self.data
-        
-        elif self.head.link == self.head:
-            self.head = None
-            
-        else: 
-            while thisNode.link.link is not self.end:
-                thisNode = thisNode.link
-            thisNode.link = self.end
-            
-    def deleteAtposition(self, pos):
-        if self.head is None:
+            newNode.link = self.last.link
+            self.last.link = newNode
+            self.last = newNode
+            return self.last
+             
+    def insertWherever(self, data, x):
+        if self.last == None:
             return None
-        
-        if pos == 1:
-            self.head.data = self.head.link.data
-            temp = self.head.link
-            self.head.link = self.head.link.link
-            del temp
-            return self.head
-        
-        thisNode = self.head
-        for i in range(pos - 2):
+
+        newNode = Node(data)
+        thisNode = self.last.link
+        while thisNode:
+            if thisNode.data == x:
+                newNode.link = thisNode.link
+                thisNode.link = newNode
+                if thisNode == self.last:
+                    self.last = newNode
+                    return self.last
+                else:
+                    return self.last
             thisNode = thisNode.link
-        temp = thisNode.link
-        thisNode.link = thisNode.link.link
-        del temp
-        return self.head
+            if thisNode == self.last.link:
+                break
+
+    def deleteFirst(self):
+        if self.last == None:
+            return False
+        elif(self.last != None):
+            if(self.last.link == self.last):
+                self.last = None
             
-    def display(self): 
-        thisNode = self.head
-        while thisNode is not None:
+            else:
+                temp = self.last
+                while(temp.link != self.last):
+                    temp = temp.link
+                self.last = self.last.link
+                temp.link = self.last 
+            
+    def deleteLast(self):
+        if self.last == None:
+            return False
+        elif(self.last != None):
+            if(self.last.link == self.last):
+                self.last = None
+            else:
+                temp = self.last
+                while(temp.link.link != self.last):
+                    temp = temp.link
+                temp.link = self.last
+            
+    def deleteWherever(self, x):
+        if self.last == None:
+            return False
+        
+        if self.last.link.data == x and self.last.link == self.last:
+            self.last = None
+        
+        thisNode = self.last
+        if thisNode.data == x:
+            while (thisNode.link != self.last):
+                thisNode = thisNode.link
+            thisNode.link = self.last.link
+            self.last = self.last.link
+            return 
+        
+        while (self.last.link != self.last and self.last.link.data != x):
+            thisNode = thisNode.link
+        
+        if self.last.link.data == x:
+            temp = self.last.link
+            self.last = temp.link
+            temp = None
+            
+        else:
+            return False            
+            
+    def display(self):
+        if self.last == None:
+            return False
+
+        thisNode = self.last.link
+        while thisNode:
             print(thisNode.data, end=" ")
             thisNode = thisNode.link
-            if thisNode == self.head:
+            if thisNode == self.last.link:
                 break
-        print()
             
     def sizeOf(self):
-        size = 0
-        if self.head is not None:
-            thisNode = self.head
-            while thisNode is not None:
+        size = 1
+        if self.last is not None:
+            thisNode = self.last
+            while thisNode.link is not self.last:
                 thisNode = thisNode.link
                 size += 1
                 if thisNode == self.head:
                     break
             return size
         else:
-            return 0
+            size = 0
+            return size
     
-    def updateData(self, oldData, newData):
-        position = 0
-        
-        if self.head is None:
-            return False
-        
-        thisNode = self.head
-        while thisNode.link != self.head:
-            if thisNode.data == oldData:
-                thisNode.data = newData
-                return
-            
-            thisNode = thisNode.link
-            position += 1
-        
-        if thisNode.link == self.head and thisNode.data != oldData:
-            return False
-        
-    def AddTwoList(self, addedList):
+    def update(self, data, pos):
         temp = self.head
-        self.head.link = addedList.head.link
-        addedList.head.link = temp
+        for i in range(pos):
+            temp = temp.link
+        temp.data = data
+  
+    def concat(self, list2):
+        self.size += list2.sizOf()
+        if list2.head is not None:
+            if self.head is not None:
+                self.last.link = list2.head
+                self.last = list2.last
+                self.last.link = self.head
+            else:
+                self.head = list2.head
+                self.last = list2.last
+                self.last.link = self.head
+
+            list2.head = None
+            list2.last = None
         
     def invert(self):
-        
-        if self.head is not None:
-            previous = self.head
-            temp = self.head
-            thisNode = self.head.link
+        if self.head is None or self.head.link is None:
+            return
 
-            previous.link = previous
+        previous = None
+        thisNode = self.head
+        newNode = None
 
-            while thisNode != self.head:
-                temp = thisNode.link
-                thisNode.link = previous
-                self.head.link = thisNode
-                previous = thisNode
-                thisNode = temp
+        while thisNode is not None:
+            newNode = thisNode.link
+            thisNode.link = previous
+            previous = thisNode
+            thisNode = newNode
 
-            self.head = previous
+        self.head = previous
+        self.last.link = self.head
