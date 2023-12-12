@@ -61,7 +61,7 @@ class linkedList:
             else:
                 return False
 
-def deleteFromfirst(self):
+    def deleteFromfirst(self):
         # Check if the linked list is empty
         if self.head == None:
             return self.data
