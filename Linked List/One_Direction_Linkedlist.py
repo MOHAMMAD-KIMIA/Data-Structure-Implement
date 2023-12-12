@@ -9,6 +9,7 @@ class linkedList:
     def __init__(self):
         # Initialize a new linked list with a null head
         self.head = None
+        self.last = None
         
     def insertAtfirst(self, data):
         # Insert a new node at the beginning of the linked list
@@ -151,3 +152,14 @@ class linkedList:
             thisNode = link
         # Set the head to the last node (previosNode)
         self.head = previosNode
+
+    def concat(self, list2):
+        if list2.head is not None:
+            if self.last is not None:
+                self.last.link = list2.head
+                self.last = list2.last
+            else:
+                self.head = list2.head
+                self.last = list2.last
+            list2.head = None
+            list2.last = None
