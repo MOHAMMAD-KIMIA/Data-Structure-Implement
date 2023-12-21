@@ -1,58 +1,60 @@
+# Node class represents a node in a linked list
 class Node:
     def __init__(self, data):
         # Initialize a new Node with the given data and a null link
         self.data = data
         self.link = None
 
-class linkedList:
+# LinkedList class represents a singly linked list
+class LinkedList:
         
     def __init__(self):
-        # Initialize a new linked list with a null head
+        # Initialize a new linked list with a null head and last
         self.head = None
         self.last = None
         
-    def insertAtfirst(self, data):
-        # Insert a new node at the beginning of the linked list
+    # Method to insert a node at the beginning of the linked list
+    def insertAtFirst(self, data):
+        # Insert a new node at the beginning with the given data
         newNode = Node(data)
         
         # If the linked list is empty, set the head to the new node
         if self.head is None:
             self.head = newNode
-            return
         # If the linked list is not empty, set the new node's link to the current head and update the head
         else:
             newNode.link = self.head
             self.head = newNode
             
-    def insertAtend(self, data):
-        # Insert a new node at the end of the linked list
+    # Method to insert a node at the end of the linked list
+    def insertAtEnd(self, data):
+        # Insert a new node at the end with the given data
         newNode = Node(data)
-        newNode.link = None
-        thisNode = self.head
         
-        # If the linked list is empty, return the new node
-        if self.head == None:
-            return newNode
-        # Iterate through the linked list to find the last node and append the new node
-        while thisNode.link is not None:
-            thisNode = thisNode.link
-        thisNode.link = newNode
-        return self.head
-        
+        # If the linked list is empty, set both head and last to the new node
+        if self.head is None:
+            self.head = newNode
+            self.last = newNode
+        # If the linked list is not empty, append the new node to the end and update last
+        else:
+            self.last.link = newNode
+            self.last = newNode
+
+    # Method to insert a node at a specific position in the linked list
     def insertWherever(self, data, pos):
-        # Insert a new node at a specific position in the linked list
+        # Insert a new node with the given data at a specific position in the linked list
         newNode = Node(data)
         position = 1
         thisNode = self.head
         
         # Handle the case where the linked list is empty
         if position == pos:
-            self.insertAtfirst = newNode
+            self.insertAtFirst(newNode)
         # Handle the case where the linked list is not empty
         else:
             # Search for the index in the linked list
-            while thisNode is not None and position+1 is not pos:
-                position = position + 1
+            while thisNode is not None and position + 1 is not pos:
+                position += 1
                 thisNode = thisNode.link
             # When the position is found, insert the new node at that position
             if thisNode is not None:
@@ -62,98 +64,98 @@ class linkedList:
             else:
                 return False
 
-    def deleteFromfirst(self):
-        # Check if the linked list is empty
-        if self.head == None:
-            return self.data
-        # Move the head pointer to the next node
-        else:
+    # Method to delete the first node in the linked list
+    def deleteFromFirst(self):
+        # Delete the first node in the linked list
+        if self.head is not None:
             self.head = self.head.link
-            
-    def deleteFromlast(self):
-        # Check if the linked list is empty
-        if self.head == None:
-            return False
-        # Traverse the linked list to find the second last node and set its link to None
-        thisNode = self.head
-        while thisNode.link.link is not None:
-            thisNode = thisNode.link
-        thisNode.link = None
-        
-    def deletWherever(self, pos):
-        # Initialize position and thisNode
+
+    # Method to delete the last node in the linked list
+    def deleteFromLast(self):
+        # Delete the last node in the linked list
+        if self.head is not None:
+            thisNode = self.head
+            # Traverse the linked list to find the second last node and set its link to None
+            while thisNode.link.link is not None:
+                thisNode = thisNode.link
+            thisNode.link = None
+
+    # Method to delete a node at a specific position in the linked list
+    def deleteWherever(self, pos):
+        # Delete the node at the specified position in the linked list
         position = 1
         thisNode = self.head
-        # Check if the linked list is empty
-        if self.head == None:
-            return False
-        # If the position to delete is the first node, call deleteFromfirst()
-        elif position == pos:
-            self.deletFromfirst()
-        # Traverse the linked list to find the node at the specified position and delete it
-        else:
-            while thisNode is not None and position+1 is not pos:
-                position = position + 1
-                thisNode = thisNode.link
-            if thisNode is not None:
-                thisNode.link = thisNode.link.link
-            else:
-                return self.data
-            
-    def display(self):
-        # Initialize thisNode as the head
-        thisNode = self.head
-        # Traverse the linked list and print the data of each node
-        while thisNode is not None:
-            print(thisNode.data)
-            thisNode = thisNode.link
-            
-    def sizeOf(self):
-        # Initialize size as 0
-        size = 0
-        # Check if the linked list is not empty
+        
+        # Handle the case where the linked list is not empty
         if self.head is not None:
-            # Traverse the linked list and count the nodes
-            thisNode = self.head
-            while thisNode is not None:
-                thisNode = thisNode.link
-                size += 1
-            return size
-        else:
-            return 0
-    
-    def updateNode(self, data, pos):
-        # Initialize position and thisNode
-        position = 0
+            # If the position to delete is the first node, call deleteFromFirst()
+            if position == pos:
+                self.deleteFromFirst()
+            else:
+                # Traverse the linked list to find the node at the specified position and delete it
+                while thisNode is not None and position + 1 is not pos:
+                    position += 1
+                    thisNode = thisNode.link
+                if thisNode is not None:
+                    thisNode.link = thisNode.link.link
+                else:
+                    return None
+
+    # Method to display the elements of the linked list
+    def display(self):
+        # Display the elements of the linked list
         thisNode = self.head
-        # Check if the linked list is empty
-        if position == pos:
-            # Update the data of the first node
-            thisNode.data = data
-        else:
-            # Traverse the linked list to find the node at the specified position and update its data
-            while thisNode is not None and position+1 is not pos:
-                position = position + 1
-                thisNode = thisNode.link
-            if thisNode is not None:
+        while thisNode is not None:
+            print(thisNode.data, end=" ")
+            thisNode = thisNode.link
+        print()
+
+    # Method to get the size (number of elements) of the linked list
+    def sizeOf(self):
+        # Get the size of the linked list
+        size = 0
+        thisNode = self.head
+        while thisNode is not None:
+            thisNode = thisNode.link
+            size += 1
+        return size
+
+    # Method to update the value of a node at a specific position
+    def updateNode(self, data, pos):
+        # Update the value of a node at a specific position in the linked list
+        position = 1
+        thisNode = self.head
+        
+        # Handle the case where the linked list is not empty
+        if self.head is not None:
+            # If the position to update is the first node, update its data
+            if position == pos:
                 thisNode.data = data
             else:
-                return False
+                # Traverse the linked list to find the node at the specified position and update its data
+                while thisNode is not None and position + 1 is not pos:
+                    position += 1
+                    thisNode = thisNode.link
+                if thisNode is not None:
+                    thisNode.data = data
+                else:
+                    return False
 
+    # Method to invert the order of nodes in the linked list
     def invert(self):
-        # Initialize previosNode as None and thisNode as the head
-        previosNode = None
+        # Invert the order of nodes in the linked list
+        previousNode = None
         thisNode = self.head
-        # Traverse the linked list and reverse the links of the nodes
-        while (thisNode is not None):
+        while thisNode is not None:
             link = thisNode.link
-            thisNode.link = previosNode
-            previosNode = thisNode
+            thisNode.link = previousNode
+            previousNode = thisNode
             thisNode = link
-        # Set the head to the last node (previosNode)
-        self.head = previosNode
+        self.head = previousNode
 
+    # Method to concatenate the linked list with another linked list
     def concat(self, list2):
+        # Concatenate the current linked list with another linked list
         if list2.head is not None:
             if self.last is not None:
                 self.last.link = list2.head
