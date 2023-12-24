@@ -26,6 +26,13 @@ class LinkedList:
                 thisNode.next = thisNode.next.next
                 return
             thisNode = thisNode.next
+            
+    def display(self):
+        thisNode = self.head
+        while thisNode:
+            print(f"{thisNode.neighbor} -> ", end='')
+            thisNode = thisNode.next
+        print("None")
 
 # Graph class represents a graph using an adjacency list
 class Graph:
@@ -68,3 +75,41 @@ class Graph:
             return True
         else:
             return False  # One or both vertices don't exist
+              
+    def DFS(self, start, visited=None):
+        if visited is None:
+            visited = set()
+
+        visited.add(start)
+        print(start, end=' ')
+
+        thisNode = self.vertex[start].head
+        while thisNode:
+            neighbor = thisNode.neighbor
+            if neighbor not in visited:
+                self.DFS(neighbor, visited)
+            thisNode = thisNode.next
+           
+    def display(self):
+        for vertex, linkedList in self.vertex.items():
+            print(f"Vertex {vertex}: ", end='')
+            linkedList.display()
+
+if __name__ == "__main__":
+    graph = Graph()
+
+    for i in range(1, 6):
+        graph.addVertex(i)
+
+    graph.addEdge(1, 2)
+    graph.addEdge(1, 3)
+    graph.addEdge(2, 3)
+    graph.addEdge(2, 4)
+    graph.addEdge(3, 5)
+    graph.addEdge(4, 5)
+
+    print("Original Graph:")
+    graph.display()
+
+    print("\nDepth-First Search (DFS):")
+    graph.DFS(1)  # Provide the starting vertex for DFS
