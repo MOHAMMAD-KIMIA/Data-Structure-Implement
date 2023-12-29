@@ -10,6 +10,55 @@ class TreeLinkedList:
     def __init__(self):
         self.root = None  # Initialize the root of the tree to None
 
+    # Public method to insert a value into the tree
+    def insert(self, data):
+        self.root = self.insertRec(self.root, data)
+
+    # Private recursive method to insert a value into the tree
+    def insertRec(self, root, data):
+        if root is None:
+            return self.Tree(data)  # Create a new node if the current node is None
+
+        if data < root.data:
+            root.left = self.insertRec(root.left, data)  # Recursively insert into the left subtree
+        elif data > root.data:
+            root.right = self.insertRec(root.right, data)  # Recursively insert into the right subtree
+
+        return root
+
+    # Public method to remove a value from the tree
+    def remove(self, data):
+        self.root = self.removeRec(self.root, data)
+
+    # Private recursive method to remove a value from the tree
+    def removeRec(self, root, data):
+        if root is None:
+            return None
+
+        if data < root.data:
+            root.left = self.removeRec(root.left, data)
+        elif data > root.data:
+            root.right = self.removeRec(root.right, data)
+        else:
+            # Node with only one child or no child
+            if root.left is None:
+                return root.right
+            elif root.right is None:
+                return root.left
+
+            # Node with two children
+            root.data = self.minVal(root.right).data
+            root.right = self.removeRec(root.right, root.data)
+
+        return root
+
+    # Helper method to find the node with the minimum value in a subtree
+    def minVal(self, root):
+        current = root
+        while current.left is not None:
+            current = current.left
+        return current
+
     # Display the entire tree
     def displayTree(self):
         h = self.height(self.root)  # Get the height of the tree
