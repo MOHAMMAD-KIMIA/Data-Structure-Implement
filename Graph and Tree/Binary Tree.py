@@ -99,4 +99,3 @@ class BinaryTree:
             
     def postOrder(self):
         self.printPostorder(self.root)
-

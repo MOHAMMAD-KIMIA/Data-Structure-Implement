@@ -93,4 +93,8 @@ class Graph:
     def display(self):
         for vertex, linkedList in self.vertex.items():
             print(f"Vertex {vertex}: ", end='')
+<<<<<<< HEAD
             linkedList.display()
+=======
+            linkedList.display()
+>>>>>>> 585f966df712545693c112055cfea3ca54270b7a
