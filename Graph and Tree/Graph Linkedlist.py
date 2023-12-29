@@ -89,27 +89,8 @@ class Graph:
             if neighbor not in visited:
                 self.DFS(neighbor, visited)
             thisNode = thisNode.next
-           
+            
     def display(self):
         for vertex, linkedList in self.vertex.items():
             print(f"Vertex {vertex}: ", end='')
             linkedList.display()
-
-if __name__ == "__main__":
-    graph = Graph()
-
-    for i in range(1, 6):
-        graph.addVertex(i)
-
-    graph.addEdge(1, 2)
-    graph.addEdge(1, 3)
-    graph.addEdge(2, 3)
-    graph.addEdge(2, 4)
-    graph.addEdge(3, 5)
-    graph.addEdge(4, 5)
-
-    print("Original Graph:")
-    graph.display()
-
-    print("\nDepth-First Search (DFS):")
-    graph.DFS(1)  # Provide the starting vertex for DFS

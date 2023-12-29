@@ -60,6 +60,17 @@ class BinaryTree:
                 root.right = self.removeBST(root.right, rightMin)
         return root        
     
+    def search(self, val):
+        return self.searchRec(self.root, val)
+
+    # Recursive method to search for a value in the tree
+    def searchRec(self, root, val):
+        if root is None or root.data == val:
+            return root
+        if val < root.data:
+            return self.searchRec(root.left, val)
+        return self.searchRec(root.right, val)
+    
     # Recursive method to print the tree in inorder traversal
     def printInorder(self, root):
         if root is not None:
@@ -71,5 +82,21 @@ class BinaryTree:
     def inOrder(self):
         self.printInorder(self.root)
         
-    def AVL(self):
-        
+    def printPreorder(self, root):
+        if root is not None:
+            print(root.data, end=' ')  # Print the current node
+            self.printPreorder(root.left)  # Recursively print the left subtree
+            self.printPreorder(root.right)  # Recursively print the right subtree
+            
+    def preOrder(self):
+        self.printPreorder(self.root)
+    
+    def printPostorder(self, root):
+        if root is not None:
+            self.printPostorder(root.left)  # Recursively print the left subtree
+            self.printPostorder(root.right)  # Recursively print the right subtree
+            print(root.data, end=' ')  # Print the current node
+            
+    def postOrder(self):
+        self.printPostorder(self.root)
+
