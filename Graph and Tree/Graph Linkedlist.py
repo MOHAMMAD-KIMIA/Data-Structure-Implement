@@ -28,6 +28,7 @@ class LinkedList:
             thisNode = thisNode.next
             
     def display(self):
+        # Display the linked list with arrows between nodes
         thisNode = self.head
         while thisNode:
             print(f"{thisNode.neighbor} -> ", end='')
@@ -90,11 +91,32 @@ class Graph:
                 self.DFS(neighbor, visited)
             thisNode = thisNode.next
             
+    def BFS(self, start):
+        visited = set()
+        queue = [start]
+
+        while queue:
+            vertex = queue.pop(0)  # Pop from the front of the list
+
+            if vertex not in visited:
+                print(vertex, end=' ')
+                visited.add(vertex)
+
+                # Enqueue neighbors of the current vertex
+                thisNode = self.vertex[vertex].head
+                while thisNode:
+                    neighbor = thisNode.neighbor
+                    if neighbor not in visited:
+                        queue.append(neighbor)
+
+                    thisNode = thisNode.next
+        
     def display(self):
+        # Display the graph with vertices and their linked lists
         for vertex, linkedList in self.vertex.items():
             print(f"Vertex {vertex}: ", end='')
-<<<<<<< HEAD
-            linkedList.display()
-=======
-            linkedList.display()
->>>>>>> 585f966df712545693c112055cfea3ca54270b7a
+            thisNode = linkedList.head
+            while thisNode:
+                print(f"{thisNode.neighbor} -> ", end='')
+                thisNode = thisNode.next
+            print("None")
