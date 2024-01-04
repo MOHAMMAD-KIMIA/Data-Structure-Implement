@@ -99,3 +99,37 @@ class BinaryTree:
             
     def postOrder(self):
         self.printPostorder(self.root)
+        
+class AVL(BinaryTree):
+    def insertAVL(self, val):
+        self.root = self.insertRec(self.root, val)
+        self.root = self.balance(self.root)
+        
+    def removeAVL(self, val):
+        self.root = self.removeBST(self.root, val)
+        self.root = self.balance(self.root)
+        
+    def height(self):
+        if self.root is None:
+            return 0
+        return self.height(self.root.left) - self.height(self.root.right)
+    
+    def leftRotate(self, y):
+        x = y.right 
+        y.right = x.left
+        x.left = y
+        
+        y.height = 1 + max(self.height(y.left), self.height(y.right))
+        x.height = 1 + max(self.height(x.right), self.height(x.right))
+        
+        return x
+    
+    def leftRotate(self, y):
+        x = y.right 
+        y.right = x.left
+        x.left = y
+        
+        y.height = 1 + max(self.height(y.left), self.height(y.right))
+        x.height = 1 + max(self.height(x.right), self.height(x.right))
+        
+        return x
