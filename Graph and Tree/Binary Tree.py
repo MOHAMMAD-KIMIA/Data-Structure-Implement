@@ -5,6 +5,7 @@ class BinaryTree:
             self.data = data
             self.left = None
             self.right = None
+            self.height = 1
     
     # Constructor for the BinaryTree class
     def __init__(self):
@@ -101,6 +102,13 @@ class BinaryTree:
         self.printPostorder(self.root)
         
 class AVL(BinaryTree):
+    class TreeNode:
+        def __init__(self, data):
+            self.data = data
+            self.left = None
+            self.right = None
+            self.height = 1 
+            
     def insertAVL(self, val):
         self.root = self.insertRec(self.root, val)
         self.root = self.balance(self.root)
@@ -108,28 +116,69 @@ class AVL(BinaryTree):
     def removeAVL(self, val):
         self.root = self.removeBST(self.root, val)
         self.root = self.balance(self.root)
-        
-    def height(self):
-        if self.root is None:
+    
+    def height(self, node):
+        if node is None:
             return 0
-        return self.height(self.root.left) - self.height(self.root.right)
+        return self.height(node.left) - self.height(node.right)
+    
+    def balanceFactor(self, node):
+        if node is None:
+            return 0
+        return self.height(node.left) - self.height(node.right)
     
     def leftRotate(self, y):
-        x = y.right 
+        # Store the right child of y in x
+        x = y.right
+        # Make the left child of x the new right child of y
         y.right = x.left
+        # Make y the left child of x
         x.left = y
-        
+
+        # Update heights
         y.height = 1 + max(self.height(y.left), self.height(y.right))
-        x.height = 1 + max(self.height(x.right), self.height(x.right))
-        
+        x.height = 1 + max(self.height(x.left), self.height(x.right))
+
+        # Return the new root of the balanced subtree
+        return x
+
+    def rightRotate(self, y):
+        # Store the left child of y in x
+        x = y.left
+        # Make the right child of x the new left child of y
+        y.left = x.right
+        # Make y the right child of x
+        x.right = y
+
+        # Update heights
+        y.height = 1 + max(self.height(y.left), self.height(y.right))
+        x.height = 1 + max(self.height(x.left), self.height(x.right))
+
+        # Return the new root of the balanced subtree
         return x
     
-    def leftRotate(self, y):
-        x = y.right 
-        y.right = x.left
-        x.left = y
-        
-        y.height = 1 + max(self.height(y.left), self.height(y.right))
-        x.height = 1 + max(self.height(x.right), self.height(x.right))
-        
-        return x
+    def balance(self, node):
+        if node is None:
+            return None
+
+        # Update height of the current node
+        node.height = 1 + max(self.height(node.left), self.height(node.right))
+
+        # Check balance factor
+        balanceFactor = self.balanceFactor(node)
+
+        # Left Heavy
+        if balanceFactor > 1:
+            # Left-Right Case
+            if self.balanceFactor(node.left) < 0:
+                node.left = self.leftRotate(node.left)
+            return self.rightRotate(node)
+
+        # Right Heavy
+        if balanceFactor < -1:
+            # Right-Left Case
+            if self.balanceFactor(node.right) > 0:
+                node.right = self.rightRotate(node.right)
+            return self.leftRotate(node)
+
+        return node
